@@ -1,16 +1,10 @@
-# Basic JavaFX 2 app
+# SymChords JavaFX 2 app
 
-A Maven project for a JavaFX 2 application.
-Uses the ZenJava plugin.
+A project that uses the Rockhopper Music library.
 
-
-    mvn jfx:run
-
-To run the app.
+It generates short MIDITracks and allows some manipulation. The results use the rockymusic-fx GrandStaff class to display the results as common music notation.
 
 
-
-- [Blog post for this project](http://rockhoppertech.com/blog/fxarchetype)
 
 
 
