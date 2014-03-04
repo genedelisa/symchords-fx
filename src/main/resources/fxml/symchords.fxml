@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  #%L
+  symchords-fx
+  %%
+  Copyright (C) 2013 - 2014 Rockhopper Tecnologies
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<?import com.rockhoppertech.music.fx.cmn.*?>
+<?import com.rockhoppertech.music.fx.cmn.GrandStaff?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?scenebuilder-classpath-element ../../../../../rockymusic/rockymusic-fx/target/classes?>
+<?scenebuilder-classpath-element ../../../../../../../../.m2/repository/org/slf4j/slf4j-api/1.7.6/slf4j-api-1.7.6.jar?>
+<?scenebuilder-classpath-element ../../../../../../../../.m2/repository/com/rockhoppertech/rockymusic-core/0.0.1-SNAPSHOT/rockymusic-core-0.0.1-SNAPSHOT.jar?>
+<?scenebuilder-classpath-element ../../../../../../../../.m2/repository/org/glassfish/javax.json/1.0.4/javax.json-1.0.4.jar?>
+
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="1000.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.rockhoppertech.symchords.fx.SymChordsController">
+  <children>
+    <BorderPane prefHeight="327.0" prefWidth="446.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <bottom>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+          <children>
+            <Button mnemonicParsing="false" onAction="#playAction" text="Play" />
+            <Button mnemonicParsing="false" text="Button" />
+            <Button mnemonicParsing="false" text="Button" />
+          </children>
+        </HBox>
+      </bottom>
+      <center>
+        <VBox prefHeight="200.0" prefWidth="100.0">
+          <children>
+            <ScrollPane fitToHeight="true" fitToWidth="false" minHeight="240.0" prefHeight="240.0" prefViewportHeight="240.0" prefViewportWidth="1000.0" prefWidth="-1.0">
+              <content>
+                <GrandStaff fx:id="grandStaff" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: antiquewhite; -fx-border-color: black; -fx-border-width: 1px;" />
+              </content>
+            </ScrollPane>
+            <SplitPane dividerPositions="0.3276553106212425" focusTraversable="true" prefHeight="646.0" prefWidth="1000.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                  <children>
+                    <ListView fx:id="trackList" layoutX="14.0" layoutY="14.0" prefHeight="364.0" prefWidth="271.0" />
+                    <Button layoutX="14.0" layoutY="391.0" mnemonicParsing="false" onAction="#playSelectedAction" text="Play Selected" />
+                  </children>
+                </AnchorPane>
+                <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                  <tabs>
+                    <Tab text="Sym">
+                      <content>
+                        <GridPane alignment="CENTER" prefHeight="200.0" prefWidth="320.0">
+                          <children>
+                            <TextField fx:id="IntervalsTextField" prefWidth="200.0" promptText="Enter intervals" text="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0">
+                              <GridPane.margin>
+                                <Insets right="10.0" fx:id="x1" />
+                              </GridPane.margin>
+                            </TextField>
+                            <Label labelFor="$IntervalsTextField" text="Intervals" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="0" />
+                            <Label text="Base Pitch" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="2" />
+                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                              <children>
+                                <ComboBox fx:id="basePitchCombo" HBox.hgrow="ALWAYS">
+                                  <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                      <String fx:value="C" />
+                                      <String fx:value="C#" />
+                                      <String fx:value="D" />
+                                      <String fx:value="D#" />
+                                      <String fx:value="E" />
+                                      <String fx:value="F" />
+                                      <String fx:value="F#" />
+                                      <String fx:value="G" />
+                                      <String fx:value="G#" />
+                                      <String fx:value="A" />
+                                      <String fx:value="Bb" />
+                                      <String fx:value="B" />
+                                    </FXCollections>
+                                  </items>
+                                </ComboBox>
+                                <ComboBox fx:id="baseOctaveCombo" HBox.hgrow="ALWAYS">
+                                  <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                      <String fx:value="0" />
+                                      <String fx:value="1" />
+                                      <String fx:value="2" />
+                                      <String fx:value="3" />
+                                      <String fx:value="4" />
+                                      <String fx:value="5" />
+                                      <String fx:value="6" />
+                                      <String fx:value="7" />
+                                      <String fx:value="8" />
+                                      <String fx:value="9" />
+                                      <String fx:value="10" />
+                                    </FXCollections>
+                                  </items>
+                                </ComboBox>
+                                <Slider fx:id="pitchSlider" majorTickUnit="12.0" max="127.0" minorTickCount="2" showTickLabels="false" value="60.0" />
+                                <Label fx:id="sliderText" text="100" HBox.hgrow="ALWAYS" />
+                              </children>
+                            </HBox>
+                            <Label alignment="CENTER" contentDisplay="RIGHT" text="Interval Relationship" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="3" />
+                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <children>
+                                <RadioButton fx:id="relativeRadio" mnemonicParsing="false" selected="true" text="relative" HBox.hgrow="ALWAYS">
+                                  <toggleGroup>
+                                    <ToggleGroup fx:id="relationshipGroup" />
+                                  </toggleGroup>
+                                </RadioButton>
+                                <RadioButton fx:id="absoluteRadio" mnemonicParsing="false" text="absolute" toggleGroup="$relationshipGroup" HBox.hgrow="ALWAYS" />
+                              </children>
+                            </HBox>
+                            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                              <children>
+                                <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#doitAction" text="Do it" HBox.hgrow="ALWAYS">
+                                  <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                  </HBox.margin>
+                                </Button>
+                              </children>
+                            </HBox>
+                            <Label text="Number of Octaves" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="4" />
+                            <Label text="Unit" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="5" />
+                            <Label text="Pattern" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="6">
+                              <labelFor>
+                                <TextField fx:id="patternTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.margin="$x1" GridPane.rowIndex="6" />
+                              </labelFor>
+                            </Label>
+                            <fx:reference source="patternTextField" />
+                            <Slider fx:id="octavesSlider" blockIncrement="2.0" majorTickUnit="2.0" max="10.0" min="1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                            <Slider fx:id="unitSlider" blockIncrement="6.0" majorTickUnit="4.0" max="24.0" min="1.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                          </children>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="149.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="297.0" minWidth="10.0" prefWidth="297.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                      </content>
+                    </Tab>
+                    <Tab text="Modifiers">
+                      <content>
+                        <GridPane id="GridPane" alignment="CENTER" hgap="5.0" vgap="5.0">
+                          <children>
+                            <TextField fx:id="modifierValuesTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="609.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                              <children>
+                                <RadioButton fx:id="subtractModifierCB" mnemonicParsing="false" text="Subtract">
+                                  <toggleGroup>
+                                    <ToggleGroup fx:id="operationGroup" />
+                                  </toggleGroup>
+                                </RadioButton>
+                                <RadioButton fx:id="multiplyModifierCB" mnemonicParsing="false" text="Multiply" toggleGroup="$operationGroup" />
+                                <RadioButton fx:id="divideModifierCB" mnemonicParsing="false" text="Divide" toggleGroup="$operationGroup" />
+                                <RadioButton fx:id="setModifierCB" mnemonicParsing="false" selected="true" text="Set" toggleGroup="$operationGroup" />
+                                <RadioButton fx:id="modModifierCB" mnemonicParsing="false" text="Mod" toggleGroup="$operationGroup" />
+                                <RadioButton fx:id="addModifierCB" mnemonicParsing="false" text="Add" toggleGroup="$operationGroup" />
+                              </children>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="297.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                              <children>
+                                <RadioButton fx:id="durationModifierCB" mnemonicParsing="false" onAction="#durationModifierAction" selected="true" text="Durations">
+                                  <toggleGroup>
+                                    <ToggleGroup fx:id="modifierGroup" />
+                                  </toggleGroup>
+                                </RadioButton>
+                                <RadioButton fx:id="startBeatModifierCB" mnemonicParsing="false" onAction="#startBeatModifierAction" text="Start Beats" toggleGroup="$modifierGroup" />
+                                <RadioButton fx:id="pitchModifierCB" mnemonicParsing="false" onAction="#pitchModifierAction" text="Pitches" toggleGroup="$modifierGroup" />
+                              </children>
+                            </HBox>
+                            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Operation" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                            <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#modifyAction" text="Modify" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Values" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
+                            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Modifier" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                          </children>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="83.0" minWidth="10.0" prefWidth="83.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="570.0" />
+                          </columnConstraints>
+                          <padding>
+                            <Insets left="5.0" right="5.0" />
+                          </padding>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                      </content>
+                    </Tab>
+                    <Tab text="Patterns">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <children>
+                            <ListView fx:id="patternListView" prefHeight="104.0" prefWidth="463.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="124.5" AnchorPane.rightAnchor="129.5" AnchorPane.topAnchor="254.0" />
+                            <ScrollPane layoutX="15.0" layoutY="14.0" prefHeight="240.0" prefViewportHeight="240.0" prefWidth="688.0">
+                              <content>
+                                <GrandStaff fx:id="patternStaff" style="-fx-background-color: antiquewhite; -fx-border-color: black; -fx-border-width: 1px;" />
+                              </content>
+                            </ScrollPane>
+                            <HBox alignment="CENTER" layoutX="125.0" prefHeight="22.0" prefWidth="439.0" AnchorPane.bottomAnchor="13.0">
+                              <children>
+                                <CheckBox fx:id="patternReverseCB" mnemonicParsing="false" onAction="#patternCBAction" text="Reverse" />
+                                <CheckBox fx:id="patternUpAndDownCB" mnemonicParsing="false" onAction="#patternCBAction" text="Up and Down" />
+                                <CheckBox fx:id="patternUsePCCB" mnemonicParsing="false" onAction="#patternCBAction" text="Use PC" />
+                                <CheckBox fx:id="patternSpreadCB" mnemonicParsing="false" onAction="#patternCBAction" text="Spread" />
+                              </children>
+                            </HBox>
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </Tab>
+                  </tabs>
+                </TabPane>
+              </items>
+            </SplitPane>
+          </children>
+        </VBox>
+      </center>
+      <top>
+        <MenuBar useSystemMenuBar="true">
+          <menus>
+            <Menu mnemonicParsing="true" text="_File">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#exitAction" text="Close" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Delete" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <items>
+                <MenuItem mnemonicParsing="false" text="About" />
+              </items>
+            </Menu>
+          </menus>
+        </MenuBar>
+      </top>
+    </BorderPane>
+  </children>
+</AnchorPane>
