@@ -240,7 +240,13 @@ public class SymChordsController {
             noteModifier.setOperation(NoteModifier.Operation.ADD);
         }
 
-        noteModifier.setValues(getModifierValues());
+        double[] values = getModifierValues();
+        if(values == null) {
+            logger.debug("no modifier values");
+            return;
+        }
+        logger.debug(ArrayUtils.toString(values));
+        noteModifier.setValues(values);
         model.getMIDITrack().map(noteModifier);
         grandStaff.setTrack(model.getMIDITrack());
         grandStaff.drawShapes();
