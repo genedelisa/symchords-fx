@@ -25,8 +25,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -68,6 +66,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.primitives.Ints;
+import com.rockhoppertech.collections.ListUtils;
 import com.rockhoppertech.music.Duration;
 import com.rockhoppertech.music.Pattern;
 import com.rockhoppertech.music.PatternBuilder;
@@ -241,7 +240,7 @@ public class SymChordsController {
         }
 
         double[] values = getModifierValues();
-        if(values == null) {
+        if (values == null) {
             logger.debug("no modifier values");
             return;
         }
@@ -287,6 +286,7 @@ public class SymChordsController {
         model.createTrack();
         MIDITrack track = model.getMIDITrack();
         track.sequential();
+
         grandStaff.setTrack(track);
         grandStaff.drawShapes();
         logger.debug("track {}", track);
@@ -499,8 +499,30 @@ public class SymChordsController {
                     public void changed(
                             ObservableValue<? extends MIDITrack> observable,
                             MIDITrack oldValue, MIDITrack newValue) {
-                        grandStaff.setTrack(newValue);
-                        grandStaff.drawShapes();
+
+                        model.setMIDITrack(newValue);
+
+                        // SymParams params = model.getParamsForTrack(newValue);
+                        SymParams params = (SymParams) newValue.getUserData();
+                        logger.debug("params {}", params);
+                        if (params != null) {
+                            int pitch = params.getBasePitch() % 12;
+                            String ps = PitchFormat.getPitchString(pitch);
+                            basePitchCombo.setValue(ps);
+
+                            String oct = "" + params.getBasePitch() / 12;
+                            baseOctaveCombo.setValue(oct);
+
+                            String intervals = ListUtils.asIntString(params
+                                    .getIntervals());
+                            IntervalsTextField.setText(intervals);
+
+                            octavesSlider.setValue(params.getnOctaves());
+                            unitSlider.setValue(params.getUnit());
+                            relativeRadio.setSelected(params.isRelative());
+                            absoluteRadio.setSelected(!params.isRelative());
+
+                        }
                     }
                 });
 
@@ -508,12 +530,24 @@ public class SymChordsController {
             @Override
             public void changed(ObservableValue<? extends MIDITrack> arg0,
                     MIDITrack arg1, MIDITrack newTrack) {
-                
-                modifierValuesTextField.setText(MIDITrack
-                        .getDurationsAsString(newTrack));
+
+                if (durationModifierCB.isSelected()) {
+                    modifierValuesTextField.setText(MIDITrack
+                            .getDurationsAsString(newTrack));
+                }
+                if (pitchModifierCB.isSelected()) {
+                    modifierValuesTextField.setText(MIDITrack
+                            .getPitchesMIDINumbersAsString(newTrack));
+                }
+                if (startBeatModifierCB.isSelected()) {
+                    modifierValuesTextField.setText(MIDITrack
+                            .getStartBeatsAsString(newTrack));
+                }
+
+                grandStaff.setTrack(newTrack);
+                grandStaff.drawShapes();
             }
         });
-        
 
     }
 
@@ -681,12 +715,13 @@ public class SymChordsController {
 
                 Dragboard db = grandStaff.startDragAndDrop(TransferMode.ANY);
 
-                // TODO remove the cusotm image nonsense in javafx 8
+                // TODO remove the custom image nonsense in javafx 8
                 // javafx 8
                 // db.setDragView(dragImageView);
 
                 ClipboardContent content = new ClipboardContent();
-                MIDITrack track = grandStaff.getMIDITrack();
+                // MIDITrack track = grandStaff.getMIDITrack();
+                MIDITrack track = model.getMIDITrack();
                 content.put(midiTrackDataFormat, track);
                 db.setContent(content);
                 me.consume();
@@ -778,6 +813,7 @@ public class SymChordsController {
                             .getContent(midiTrackDataFormat);
                     trackList.getItems().add(track);
                     success = true;
+
                 }
                 /*
                  * let the source know whether the data was successfully

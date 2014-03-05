@@ -20,7 +20,10 @@ package com.rockhoppertech.symchords.fx;
  * #L%
  */
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -63,10 +66,11 @@ public class SymModel {
     public SymModel() {
         this.createTrack();
     }
-    
+
     public IntegerProperty unitProperty() {
         return unitProperty;
     }
+
     public BooleanProperty relativeProperty() {
         return relativeProperty;
     }
@@ -122,14 +126,15 @@ public class SymModel {
     public void createTrack() {
 
         int[] a = Ints.toArray(this.getIntervals());
-        this.setMIDITrack(
+        MIDITrack track =
                 MIDITrackFactory.createFromIntervals(
                         a,
                         // this.getIntervals(),
                         this.getBasePitch(),
                         this.getUnit(),
                         this.getAbsolute(),
-                        this.getNOctaves()));
+                        this.getNOctaves());
+        this.setMIDITrack(track);
 
         getMIDITrack().setName("Symmetrical");
         final String s = String
@@ -143,5 +148,24 @@ public class SymModel {
                 );
         getMIDITrack().setDescription(s);
         logger.debug(s);
+
+
+        // this.getIntervals() is not serializable. So, copy the values into a serializable list.
+        List<Integer> ints = new ArrayList<>(this.getIntervals());
+        SymParams params = new SymParams(this.getBasePitch(),
+                ints,
+                this.getAbsolute(),
+                this.getUnit(),
+                this.getNOctaves()
+                );
+        this.paramMap.put(track, params);
+        track.setUserData(params);
     }
+
+    public SymParams getParamsForTrack(MIDITrack track) {
+        logger.debug("param map {}", paramMap);
+        return paramMap.get(track);
+    }
+
+    private Map<MIDITrack, SymParams> paramMap = new TreeMap<>();
 }
