@@ -4,7 +4,7 @@ package com.rockhoppertech.symchords.fx;
  * #%L
  * symchords-fx
  * %%
- * Copyright (C) 2013 - 2014 Rockhopper Tecnologies
+ * Copyright (C) 2013 - 2014 Rockhopper Technologies
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.rockhoppertech.symchords.fx;
  * limitations under the License.
  * #L%
  */
+
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

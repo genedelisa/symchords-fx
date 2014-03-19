@@ -33,15 +33,16 @@
 <?scenebuilder-classpath-element ../../../../../../../../.m2/repository/com/rockhoppertech/rockymusic-core/0.0.1-SNAPSHOT/rockymusic-core-0.0.1-SNAPSHOT.jar?>
 <?scenebuilder-classpath-element ../../../../../../../../.m2/repository/org/glassfish/javax.json/1.0.4/javax.json-1.0.4.jar?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="1000.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.rockhoppertech.symchords.fx.SymChordsController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="1000.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.rockhoppertech.symchords.fx.TrackLibAppController">
   <children>
     <BorderPane prefHeight="327.0" prefWidth="446.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <bottom>
-        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
           <children>
             <Button mnemonicParsing="false" onAction="#playAction" text="Play" />
-            <Button mnemonicParsing="false" text="Button" />
-            <Button mnemonicParsing="false" text="Button" />
+            <CheckBox fx:id="playAsChordCB" mnemonicParsing="false" text="Play as chord" />
+            <CheckBox fx:id="chainCB" mnemonicParsing="false" text="Chain" />
+            <CheckBox fx:id="mirrorCB" mnemonicParsing="false" text="Mirror" />
           </children>
         </HBox>
       </bottom>
@@ -126,23 +127,14 @@
                                 <RadioButton fx:id="absoluteRadio" mnemonicParsing="false" text="absolute" toggleGroup="$relationshipGroup" HBox.hgrow="ALWAYS" />
                               </children>
                             </HBox>
-                            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                              <children>
-                                <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#doitAction" text="Do it" HBox.hgrow="ALWAYS">
-                                  <HBox.margin>
-                                    <Insets left="10.0" right="10.0" />
-                                  </HBox.margin>
-                                </Button>
-                              </children>
-                            </HBox>
+                            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
                             <Label text="Number of Octaves" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="4" />
                             <Label text="Unit" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="5" />
                             <Label text="Pattern" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="6">
                               <labelFor>
-                                <TextField fx:id="patternTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.margin="$x1" GridPane.rowIndex="6" />
+                                <TextField fx:id="patternTextField" prefWidth="200.0" />
                               </labelFor>
                             </Label>
-                            <fx:reference source="patternTextField" />
                             <Slider fx:id="octavesSlider" blockIncrement="2.0" majorTickUnit="2.0" max="10.0" min="1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                             <Slider fx:id="unitSlider" blockIncrement="6.0" majorTickUnit="4.0" max="24.0" min="1.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                           </children>

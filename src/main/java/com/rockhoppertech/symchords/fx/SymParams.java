@@ -4,7 +4,7 @@ package com.rockhoppertech.symchords.fx;
  * #%L
  * symchords-fx
  * %%
- * Copyright (C) 2013 - 2014 Rockhopper Tecnologies
+ * Copyright (C) 2013 - 2014 Rockhopper Technologies
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.rockhoppertech.symchords.fx;
  * limitations under the License.
  * #L%
  */
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -49,6 +50,7 @@ public class SymParams implements Serializable {
     private int unit;
     private int nOctaves;
 
+    public SymParams() {}
     /**
      * @param basePitch
      * @param intervals
@@ -262,6 +264,8 @@ public class SymParams implements Serializable {
 
     }
 
+    //{"basePitch":0,"intervals":[{"interval":1},{"interval":2},{"interval":3}],"unit":0,"nOctaves":0,"relative":false}
+
     public JsonObject toJSON() {
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         for (Integer i : this.intervals) {
@@ -278,4 +282,11 @@ public class SymParams implements Serializable {
                 .build();
         return o;
     }
+    
+//    public static void main(String[] args) {
+//        SymParams s = new SymParams();
+//        List<Integer> ints = Lists.newArrayList(1,2,3);
+//        s.setIntervals(ints);
+//        System.out.println(s.toJSON().toString());
+//    }
 }

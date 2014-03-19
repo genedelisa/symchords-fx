@@ -18,14 +18,14 @@
 
 	<organization>
 		<!-- Used as the 'Vendor' for JNLP generation -->
-		<name>Rockhopper Tecnologies</name>
+		<name>Rockhopper Technologies</name>
 	</organization>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.src.version>1.8</java.src.version>
-		<java.target.version>1.8</java.target.version>
+		<java.src.version>1.7</java.src.version>
+		<java.target.version>1.7</java.target.version>
 
 		<!-- so you can specify which main to run from the cmd line: -DappClassname=whatever -->
 		<!-- In eclipse, add a parameter in the run configuration -->

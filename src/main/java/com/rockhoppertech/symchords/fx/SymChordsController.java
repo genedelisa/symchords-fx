@@ -4,7 +4,7 @@ package com.rockhoppertech.symchords.fx;
  * #%L
  * symchords-fx
  * %%
- * Copyright (C) 2013 - 2014 Rockhopper Tecnologies
+ * Copyright (C) 2013 - 2014 Rockhopper Technologies
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,6 +65,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.rockhoppertech.collections.ListUtils;
 import com.rockhoppertech.music.Duration;
@@ -73,9 +74,13 @@ import com.rockhoppertech.music.PatternBuilder;
 import com.rockhoppertech.music.PatternFactory;
 import com.rockhoppertech.music.PitchFactory;
 import com.rockhoppertech.music.PitchFormat;
+import com.rockhoppertech.music.Timed;
 import com.rockhoppertech.music.fx.cmn.GrandStaff;
 import com.rockhoppertech.music.midi.js.MIDITrack;
+import com.rockhoppertech.music.midi.js.MIDITrackFactory;
+import com.rockhoppertech.music.midi.js.function.StartTimeFunction;
 import com.rockhoppertech.music.modifiers.DurationModifier;
+import com.rockhoppertech.music.modifiers.Modifier.Operation;
 import com.rockhoppertech.music.modifiers.NoteModifier;
 import com.rockhoppertech.music.modifiers.PitchModifier;
 import com.rockhoppertech.music.modifiers.StartBeatModifier;
@@ -282,15 +287,20 @@ public class SymChordsController {
     }
 
     @FXML
+    private CheckBox chainCB;
+
+    @FXML
+    private CheckBox mirrorCB;
+
+    @FXML
+    private CheckBox playAsChordCB;
+
+    @FXML
     void doitAction(ActionEvent event) {
         model.createTrack();
         MIDITrack track = model.getMIDITrack();
         track.sequential();
 
-        grandStaff.setTrack(track);
-        grandStaff.drawShapes();
-        logger.debug("track {}", track);
-        logger.debug("track {}", track.getDescription());
         if (this.pattern != null) {
             this.patternTextField.setText(ArrayUtils.toString(this.pattern));
             Pattern p = new PatternBuilder(track.getPitchClasses(),
@@ -300,16 +310,74 @@ public class SymChordsController {
             this.resetPattern(track.size());
         }
         updatePatternList();
+
+        if (mirrorCB.isSelected()) {
+            final MIDITrack inversion = this.model.getMIDITrack()
+                    .getInversion();
+            inversion.remove(0);
+            track = model.getMIDITrack();
+            inversion.append(track);
+            inversion.sortByAscendingPitches();
+            inversion.sequential();
+            this.model.setMIDITrack(inversion);
+        }
+
+        if (this.chainCB.isSelected()) {
+            // track = this.model.getMIDITrack();
+            track = new MIDITrack();
+            for (Integer midiNumber : this.model.getMIDITrack()
+                    .getPitchesAsIntegers()) {
+                MIDITrack list = MIDITrackFactory.createFromIntervals(
+                        this.model.getIntervals(),
+                        midiNumber,
+                        this.model.getUnit(),
+                        this.model.getAbsolute(),
+                        this.model.getNOctaves());
+                if (mirrorCB.isSelected()) {
+                    final MIDITrack inversion = list.getInversion();
+                    inversion.remove(0);
+                    list = inversion.append(list);
+                    list.sortByAscendingPitches();
+                }
+                System.err.println(list);
+                track.append(list);
+
+            }
+            // model.setMIDITrack(this.model.getMIDITrack().append(list));
+            model.setMIDITrack(track);
+        }
+        // track = model.getMIDITrack();
+        // grandStaff.setTrack(track);
+        // grandStaff.drawShapes();
+        logger.debug("track {}", track);
+        logger.debug("track {}", track.getDescription());
     }
+
+    /*
+     
+     */
 
     @FXML
     void playAction(ActionEvent event) {
         MIDITrack track = model.getMIDITrack();
+
+        if (this.playAsChordCB.isSelected()) {
+            // StartTimeFunction function = new StartTimeFunction();
+            // function.setOperation(Operation.ADD);
+            // List<Timed> newnotes = Lists.transform(track.getNotes(),
+            // function);
+
+            StartBeatModifier sbm = new StartBeatModifier(1d);
+            sbm.setOperation(Operation.SET);
+            track.map(sbm);
+        } else {
+            track.sequential();
+        }
+
         track.play();
 
-        if (((Node) event.getSource()).getId().equals("")) {
-
-        }
+        //if (((Node) event.getSource()).getId().equals("")) {
+        //}
     }
 
     @FXML
@@ -544,6 +612,7 @@ public class SymChordsController {
                             .getStartBeatsAsString(newTrack));
                 }
 
+                logger.debug("midi track property changed {}", newTrack);
                 grandStaff.setTrack(newTrack);
                 grandStaff.drawShapes();
             }
